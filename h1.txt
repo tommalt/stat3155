@@ -1,0 +1,82 @@
+Created with: [tom@ark stat3155]$ for i in `seq 2 3`; do cat "h1-$i.R"; echo -e "\n" ; Rscript "h1-$i.R" ; cat "h1-$i.txt"; done > h1.txt
+File: h1.txt
+# Tom Maltese
+# Stat 3155 HW 1
+# problem 2
+set.seed(200)
+x=rnorm(25,10,4)
+print(t.test(x, mu=10))
+
+
+
+	One Sample t-test
+
+data:  x
+t = 0.10881, df = 24, p-value = 0.9143
+alternative hypothesis: true mean is not equal to 10
+95 percent confidence interval:
+  8.720917 11.421455
+sample estimates:
+mean of x 
+ 10.07119 
+
+the p-value is = 0.9143
+we need a p-value < 0.05 to reject the null hypothesis
+therefore we fail to reject Ho
+the large p-value means that, if the null hypothesis were
+true, there is a 'p-value' probability of observing the 
+test statistic. since we observed a test statistic of 0.10881
+it is very likely that the null hypothesis is true
+# Tom Maltese
+# HW 1
+# problem 3
+df = read.table("data", sep=",")
+colnames(df) = c("rent","size")
+covar = cov(df)
+correl = cor(df)
+print(covar[1,2])
+print(correl[1,2])
+y=df$rent
+x=df$size
+model = lm(y~x)
+print(summary(model))
+coeffs = coef(model)
+yint = unname(coeffs[1])
+slope = unname(coeffs[2]) 
+print(yint)
+print(slope)
+input = 1050
+print((yint + slope * input))
+
+
+[1] 92733.44
+[1] 0.8561952
+
+Call:
+lm(formula = y ~ x)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-450.47  -58.56  -12.18  110.62  356.86 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 183.7858   160.6761   1.144    0.265    
+x             1.0667     0.1372   7.773 9.49e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 194.1 on 22 degrees of freedom
+Multiple R-squared:  0.7331,	Adjusted R-squared:  0.7209 
+F-statistic: 60.42 on 1 and 22 DF,  p-value: 9.489e-08
+
+[1] 183.7858
+[1] 1.066689
+[1] 1303.809
+The covariance and correlation coefficient of
+Size and Rent are 92733.44 and 0.8561952 respecitvely.
+The b0 coefficient (or 'y-intercept') 183.786 is the value of Rent
+when Size = 0, according to our model.
+The b1 coefficient (slope) 1.067 is the amount that Rent increases
+per unit increase in Size.
+The prediction for when Size = 1050 is b0 + Size * b1 = 1303.809

@@ -1,0 +1,7 @@
+The covariance and correlation coefficient of
+Size and Rent are 92733.44 and 0.8561952 respecitvely.
+The b0 coefficient (or 'y-intercept') 183.786 is the value of Rent
+when Size = 0, according to our model.
+The b1 coefficient (slope) 1.067 is the amount that Rent increases
+per unit increase in Size.
+The prediction for when Size = 1050 is b0 + Size * b1 = 1303.809
