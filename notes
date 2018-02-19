@@ -1,0 +1,23 @@
+
+[Common R functions]
+
+pnorm
+rnorm
+
+p
+pt
+
+t.test
+
+# two sided test
+t.test(x, mu=1)
+if (p-value < alpha)
+	reject Ho
+else
+	fail to reject
+
+t.test(x, alternative="greater")
+
+linreg:
+
+
