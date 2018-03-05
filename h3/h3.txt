@@ -1,0 +1,46 @@
+Tom Maltese
+Homework 3
+
+Problem 4.3
+
+The estimates for b0, b1, and b2 are 29.3468, 5.6128, and 3.8344, respectively.
+
+The estimate for b0 means that the average value of the response variable
+(SalesPrice / 1000) is about 29.3468 (or $29,346.8) when the HomeSize = 0
+and Rating = 0. This has no meaning, because it does not make sense to have a
+home of size 0.
+
+The estimate for b1 (5.613) means that the average value of the response variable
+(SalesPrice / 1000) increases by a factor of 5.613 for a one unit increase
+in (HomeSize / 100), ceteris paribus. In other words, an increase in HomeSize
+of 100ft^2 leads to an increase in average SalesPrice by $5,613.
+
+The estimate for b2 (3.834) means that the average value of the response variable
+(SalesPrice / 1000) increases by a factor of 3.834 for a one unit increase
+in Rating, ceteris paribus. In other words, an increase in Rating
+of 1 leads to an increase in average SalesPrice by $3,834.
+
+For a home size of 2000ft^2 (x1 = 20) and Rating of 8 (x2 = 8), the predicted
+value of the response (SalesPrice / 1000) is 172.2783, or $172,278.3
+
+Problem 4.4
+
+The estimates for b0, b1, b2, and b3 are
+1946.80204, 0.03858, 1.03939, and -413.75780 respectively
+
+The value b0 (1523.38924) means that when all other variables are = 0,
+the average value (mean) of the response (Labor) is about 1523.38924
+This means nothing to us because if there are no patients to serve
+(i.e. Xrays, Occupied beds, and Length of stay all == 0), then there
+is no need for labor.
+
+The values b[i] mean that for a one unit increase in x[i], the
+average value (mean) of the response (Labor) increases by a factor
+of b[i], ceteris paribus, for i <- {i..k} with k = number of variables
+in the model (in this case, 3).
+
+The point prediction (yhat) is 16,064.544777331
+The true value (y) is given as 17,207.31 
+The residual y - yhat         = 1,142.755222
+
+Problem 4.5: see R output.
