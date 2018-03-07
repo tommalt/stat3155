@@ -1,0 +1,191 @@
+Tom Maltese
+Homework 3
+
+** See R code and output below **
+
+Problem 4.3
+
+The estimates for b0, b1, and b2 are 29.3468, 5.6128, and 3.8344, respectively.
+
+The estimate for b0 means that the average value of the response variable
+(SalesPrice / 1000) is about 29.3468 (or $29,346.8) when the HomeSize = 0
+and Rating = 0. This has no meaning, because it does not make sense to have a
+home of size 0.
+
+The estimate for b1 (5.613) means that the average value of the response variable
+(SalesPrice / 1000) increases by a factor of 5.613 for a one unit increase
+in (HomeSize / 100), ceteris paribus. In other words, an increase in HomeSize
+of 100ft^2 leads to an increase in average SalesPrice by $5,613.
+
+The estimate for b2 (3.834) means that the average value of the response variable
+(SalesPrice / 1000) increases by a factor of 3.834 for a one unit increase
+in Rating, ceteris paribus. In other words, an increase in Rating
+of 1 leads to an increase in average SalesPrice by $3,834.
+
+For a home size of 2000ft^2 (x1 = 20) and Rating of 8 (x2 = 8), the predicted
+value of the response (SalesPrice / 1000) is 172.2783, or $172,278.3
+
+Problem 4.4
+
+The estimates for b0, b1, b2, and b3 are
+1946.80204, 0.03858, 1.03939, and -413.75780 respectively
+
+The value b0 (1523.38924) means that when all other variables are = 0,
+the average value (mean) of the response (Labor) is about 1523.38924
+This means nothing to us because if there are no patients to serve
+(i.e. Xrays, Occupied beds, and Length of stay all == 0), then there
+is no need for labor.
+
+The values b[i] mean that for a one unit increase in x[i], the
+average value (mean) of the response (Labor) increases by a factor
+of b[i], ceteris paribus, for i <- {i..k} with k = number of variables
+in the model (in this case, 3).
+
+The point prediction (yhat) is 16,064.544777331
+The true value (y) is given as 17,207.31 
+The residual y - yhat         = 1,142.755222
+
+Problem 4.5: see R output, at very end of document.
+
+# Tom Maltese
+# Homework 3
+## SOURCE CODE ###
+  cat("Problem 4.3\n")
+  data = read.table("data4-10.txt", sep=" ")
+  colnames(data) = c("SalesPrice", "HomeSize", "Rating")
+  
+  model = lm(SalesPrice ~ HomeSize + Rating, data=data) 
+  print(model)
+  print(summary(model))
+  
+  x = data.frame(HomeSize=c(20), Rating=c(8))
+  cat(paste0("Prediction of SalesPrice: ", predict(model, x) * 1000), "\n")
+  
+  cat("Problem 4.4\n")
+  data = read.table("data4-11.correct.txt", sep=",", header=TRUE)
+  # columns  =  Xray, BedDays, Length, Hours
+  model = lm(Hours ~ Xray + BedDays + Length, data=data)
+  print(summary(model))
+  
+  # point prediction for labor hours
+  x = data.frame(Xray=56194, BedDays=14077.88, Length=6.89)
+  yhat = predict(model, x)
+  cat(paste0("Point prediction for labor hours: ", yhat, "\n"))
+  y = 17207.31
+  cat(paste0("residual, (actual - predicted): ", y - yhat, "\n"))
+  
+  cat("Problem 4.5", "\n")
+  data = read.table("data4-10.txt", sep=" ")
+  colnames(data) = c("SalesPrice", "HomeSize", "Rating")
+  model = lm(SalesPrice ~ HomeSize + Rating, data=data) 
+  print(summary(model))
+  
+  k = ncol(data) - 1
+  n = nrow(data)
+  sse = sum((data$SalesPrice - predict(model))^2)
+  mse = sse / (n - k - 1)
+  s = sqrt(mse)
+  cat(paste0("S^2 : ", mse, "\n"))
+  cat(paste0("S   : ", s, "\n"))
+  ssr = sum((predict(model) - mean(data$SalesPrice))^2)
+  sst = ssr + sse
+  r2 = ssr / sst
+  adjr2 = (r2 - (k / (n - 1))) * ((n - 1) / (n - (k + 1)))
+  msr = ssr / k
+  F = msr / mse
+  cat(paste0("SSR : ", ssr, "\n"))
+  cat(paste0("SSE : ", sse, "\n"))
+  cat(paste0("SST : ", sst, "\n"))
+  cat(paste0("R^2 : ", r2, "\n"))
+  cat(paste0("Adj R^2 : ", adjr2, "\n"))
+  cat(paste0("F-stat: ", F, "\n"))
+  cat("For alpha = 0.10, 0.05, alpha = 0.01 and alpha = 0.001\n")
+  cat("we reject the null hypothesis because p-value < alpha\n")
+
+## R SOURCE OUTPUT ##
+
+Problem 4.3
+
+Call:
+lm(formula = SalesPrice ~ HomeSize + Rating, data = data)
+
+Coefficients:
+(Intercept)     HomeSize       Rating  
+     29.347        5.613        3.834  
+
+
+Call:
+lm(formula = SalesPrice ~ HomeSize + Rating, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.8358 -2.4237  0.4506  2.4568  3.3466 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  29.3468     4.8914   6.000 0.000542 ***
+HomeSize      5.6128     0.2285  24.561 4.73e-08 ***
+Rating        3.8344     0.4332   8.851 4.75e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 3.242 on 7 degrees of freedom
+Multiple R-squared:  0.9901,	Adjusted R-squared:  0.9873 
+F-statistic: 350.9 on 2 and 7 DF,  p-value: 9.575e-08
+
+Prediction of SalesPrice: 172278.307318888 
+Problem 4.4
+
+Call:
+lm(formula = Hours ~ Xray + BedDays + Length, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-687.40 -380.60  -25.03  281.91 1630.50 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 1523.38924  786.89772   1.936   0.0749 .  
+Xray           0.05299    0.02009   2.637   0.0205 *  
+BedDays        0.97848    0.10515   9.305 4.12e-07 ***
+Length      -320.95083  153.19222  -2.095   0.0563 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 614.8 on 13 degrees of freedom
+Multiple R-squared:  0.9901,	Adjusted R-squared:  0.9878 
+F-statistic:   432 on 3 and 13 DF,  p-value: 2.894e-13
+
+Point prediction for labor hours: 16064.554777331
+residual, (actual - predicted): 1142.75522266896
+Problem 4.5 
+
+Call:
+lm(formula = SalesPrice ~ HomeSize + Rating, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.8358 -2.4237  0.4506  2.4568  3.3466 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  29.3468     4.8914   6.000 0.000542 ***
+HomeSize      5.6128     0.2285  24.561 4.73e-08 ***
+Rating        3.8344     0.4332   8.851 4.75e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 3.242 on 7 degrees of freedom
+Multiple R-squared:  0.9901,	Adjusted R-squared:  0.9873 
+F-statistic: 350.9 on 2 and 7 DF,  p-value: 9.575e-08
+
+S^2 : 10.5082016497047
+S   : 3.24163564419333
+SSR : 7373.95158845206
+SSE : 73.5574115479329
+SST : 7447.50899999999
+R^2 : 0.990123219515689
+Adj R^2 : 0.987301282234457
+F-stat: 350.866486686582
+For alpha = 0.10, 0.05, alpha = 0.01 and alpha = 0.001
+we reject the null hypothesis because p-value < alpha
