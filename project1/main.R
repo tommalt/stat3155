@@ -1,15 +1,14 @@
 # Tom Maltese
 # Stat 3155 - Prof. Elbarmi
 # Project 1 - Model Building; testing for outliers
-# and multicolinearity with VIF
+# and multicolinearity with VIF, and model selection with stepwise regression,
+# forward selection, and backward elimination
 yname = "Sales"
 xnames = c("Age","HS","Income","Black","Female")
 cnames = c(yname, xnames)
 data = read.table("data-cigarette.csv", sep=",", header=TRUE)
 data = data[,cnames]
-
 naive_model = lm(Sales ~ Age + HS + Income + Black + Female, data=data)
-
 # try to filter out the outliers
 k = length(xnames)
 n = nrow(data)
@@ -20,12 +19,10 @@ outliers_y = which(abs(rs) > 2)
 outliers = sort(c(outliers_x, outliers_y))
 df = data[-outliers,]
 removed_outliers_model = lm(Sales ~ Age + HS + Income + Black + Female, data=df)
-
 cat("Naive model (full data-set, nrow = ", nrow(data), ")\n", sep="")
 print(summary(naive_model))
 cat("Removed outliers model (nrow = ", nrow(df), ")\n", sep="")
 print(summary(removed_outliers_model))
-
 # the full model (with no outliers removed from the data) realizes a stderr
 # of 30.85 on 45 degrees of freedom
 # the model with the filtered data realizes a stderr of 19.34 on 39 degrees of freedom
@@ -35,7 +32,6 @@ print(summary(removed_outliers_model))
 # additionally, the p-value for the F-statistic was slightly higher (0.13 -> 0.17)
 
 # next, we try to detect multicollinearity
-
 makeFormula = function(y, xs)
 {
 	if (is.vector(xs, mode="character") && length(xs) == 1) {
@@ -99,36 +95,16 @@ if (status) {
 }
 # checking for multicollinearity between the independent variables
 # is inconclusive; the max is only 3.82, with a mean of 2.75
-
-# gets the p-value from a linear model
-lm_pvalue = function(model)
-{
-	if (class(model) != "lm")
-		stop("'model' object is not of class 'lm'")
-	fstat = summary(model)$fstatistic
-	val = fstat[1]
-	numdf = fstat[2]
-	demdf = fstat[3]
-	p = pf(val, numdf, demdf, lower.tail=FALSE) # p-value from f-distribution
-	attributes(p) = NULL    # return just the number
-	return (p)
-}
-# TODO: finish stepwiseRegression implementation
-stepwiseRegression = function(data, yname, xnames, alpha_entry=0.05, alpha_stay=0.05)
-{
-	# let k = number of independent variables in the full model
-	# we run the regression 'k' times, with only one variable, x[i], i <- {1..k}
-	# pvalues is a vector of the p-values of the t-statistic for each regression
-	pvalues = vector(mode="numeric")
-	k = length(xnames)
-	for (i in 1:k) {
-		f = makeFormula(yname, xnames[i])
-		fit = lm(as.formula(f), data=data)
-		p = lm_pvalue(fit)
-		pvalues = append(pvalues, p)
-	}
-	minix = which.min(pvalues)
-	minp = pvalues[minix]
-}
-#debug(stepwiseRegression)
-stepwiseRegression(df, yname, xnames)
+dataset = df # use the dataset with the outliers filtered out
+null_model = lm(Sales ~ 1, data=dataset)
+full_model = lm(Sales ~ Age + HS + Income + Black + Female, data=dataset)
+cat("\nForward Selection\n")
+step(null_model, scope=list(lower=null_model, upper=full_model), data=dataset, direction="forward")
+cat("\nBackward Selection\n")
+step(full_model, data=dataset , direction="backward")
+cat("\nStepwise regression\n")
+step(null_model, scope=list(upper=full_model), data=dataset, direction="both")
+# Looking at the output from all three variable selection methods
+# we observe that all the algorithms conclude Sales ~ Income to be the best model
+optimal_model = lm(Sales ~ Income, data=dataset)
+print(summary(optimal_model))
