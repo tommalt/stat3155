@@ -95,7 +95,8 @@ if (status) {
 }
 # checking for multicollinearity between the independent variables
 # is inconclusive; the max is only 3.82, with a mean of 2.75
-dataset = df # use the dataset with the outliers filtered out
+dataset = df
+# dataset = data
 null_model = lm(Sales ~ 1, data=dataset)
 full_model = lm(Sales ~ Age + HS + Income + Black + Female, data=dataset)
 cat("\nForward Selection\n")
@@ -108,3 +109,4 @@ step(null_model, scope=list(upper=full_model), data=dataset, direction="both")
 # we observe that all the algorithms conclude Sales ~ Income to be the best model
 optimal_model = lm(Sales ~ Income, data=dataset)
 print(summary(optimal_model))
+print(confint(optimal_model))
