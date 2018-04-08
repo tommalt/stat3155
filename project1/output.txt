@@ -1,0 +1,324 @@
+Naive model (full data-set, nrow = 51)
+
+Call:
+lm(formula = Sales ~ Age + HS + Income + Black + Female, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-40.984 -15.045  -6.913   4.269 147.425 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept)  -0.82688  266.50717  -0.003    0.998
+Age           3.42733    3.50528   0.978    0.333
+HS            0.30389    0.88304   0.344    0.732
+Income        0.01230    0.01095   1.123    0.267
+Black         0.61908    0.52574   1.178    0.245
+Female       -0.79256    6.08880  -0.130    0.897
+
+Residual standard error: 30.85 on 45 degrees of freedom
+Multiple R-squared:  0.1671,	Adjusted R-squared:  0.07458 
+F-statistic: 1.806 on 5 and 45 DF,  p-value: 0.131
+
+Removed outliers model (nrow = 45)
+
+Call:
+lm(formula = Sales ~ Age + HS + Income + Black + Female, data = df)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-41.34 -11.32  -2.84   8.15  60.59 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept)  32.982952 243.230078   0.136    0.893
+Age           1.924308   2.857200   0.673    0.505
+HS            0.183375   0.745382   0.246    0.807
+Income        0.011189   0.007458   1.500    0.142
+Black         0.152738   0.565663   0.270    0.789
+Female       -0.435063   5.397052  -0.081    0.936
+
+Residual standard error: 19.34 on 39 degrees of freedom
+Multiple R-squared:  0.1721,	Adjusted R-squared:  0.06593 
+F-statistic: 1.621 on 5 and 39 DF,  p-value: 0.1773
+
+Variance Inflation factor analysis (with trimmed dataset)
+VIF of Age : 2.411293 
+VIF of HS : 3.817253 
+VIF of Income : 2.170883 
+VIF of Black : 3.246311 
+VIF of Female : 2.082084 
+Maximum VIF: 3.817253 
+Mean    VIF: 2.745565 
+VIF checks passed
+
+** Model Selection: With full dataset **
+
+Forward Selection
+Start:  AIC=354.72
+Sales ~ 1
+
+         Df Sum of Sq   RSS    AIC
++ Income  1    5467.6 45958 350.99
++ Age     1    2639.5 48786 354.03
+<none>                51425 354.72
++ Black   1    1848.5 49577 354.85
++ Female  1    1099.5 50326 355.62
++ HS      1     228.8 51197 356.49
+
+Step:  AIC=350.99
+Sales ~ Income
+
+         Df Sum of Sq   RSS    AIC
+<none>                45958 350.99
++ Black   1   1740.70 44217 351.02
++ Female  1   1469.88 44488 351.33
++ Age     1   1124.01 44834 351.72
++ HS      1    830.23 45128 352.06
+
+Call:
+lm(formula = Sales ~ Income, data = dataset)
+
+Coefficients:
+(Intercept)       Income  
+   55.36245      0.01758  
+
+
+Backward Selection
+Start:  AIC=355.39
+Sales ~ Age + HS + Income + Black + Female
+
+         Df Sum of Sq   RSS    AIC
+- Female  1     16.13 42847 353.41
+- HS      1    112.72 42944 353.53
+- Age     1    909.94 43741 354.47
+- Income  1   1200.86 44032 354.80
+- Black   1   1319.77 44151 354.94
+<none>                42831 355.39
+
+Step:  AIC=353.41
+Sales ~ Age + HS + Income + Black
+
+         Df Sum of Sq   RSS    AIC
+- HS      1    109.79 42957 351.54
+- Age     1   1349.45 44197 352.99
+- Income  1   1381.58 44229 353.03
+- Black   1   1587.11 44434 353.27
+<none>                42847 353.41
+
+Step:  AIC=351.54
+Sales ~ Age + Income + Black
+
+         Df Sum of Sq   RSS    AIC
+- Age     1    1260.0 44217 351.02
+<none>                42957 351.54
+- Black   1    1876.7 44834 351.72
+- Income  1    3794.6 46752 353.86
+
+Step:  AIC=351.02
+Sales ~ Income + Black
+
+         Df Sum of Sq   RSS    AIC
+- Black   1    1740.7 45958 350.99
+<none>                44217 351.02
+- Income  1    5359.8 49577 354.85
+
+Step:  AIC=350.99
+Sales ~ Income
+
+         Df Sum of Sq   RSS    AIC
+<none>                45958 350.99
+- Income  1    5467.6 51425 354.72
+
+Call:
+lm(formula = Sales ~ Income, data = dataset)
+
+Coefficients:
+(Intercept)       Income  
+   55.36245      0.01758  
+
+
+Stepwise regression
+Start:  AIC=354.72
+Sales ~ 1
+
+         Df Sum of Sq   RSS    AIC
++ Income  1    5467.6 45958 350.99
++ Age     1    2639.5 48786 354.03
+<none>                51425 354.72
++ Black   1    1848.5 49577 354.85
++ Female  1    1099.5 50326 355.62
++ HS      1     228.8 51197 356.49
+
+Step:  AIC=350.99
+Sales ~ Income
+
+         Df Sum of Sq   RSS    AIC
+<none>                45958 350.99
++ Black   1    1740.7 44217 351.02
++ Female  1    1469.9 44488 351.33
++ Age     1    1124.0 44834 351.72
++ HS      1     830.2 45128 352.06
+- Income  1    5467.6 51425 354.72
+
+Call:
+lm(formula = Sales ~ Income, data = dataset)
+
+Coefficients:
+(Intercept)       Income  
+   55.36245      0.01758  
+
+
+Call:
+lm(formula = Sales ~ Income, data = dataset)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-54.550 -15.772  -6.517   4.491 144.628 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)  
+(Intercept) 55.362454  27.743082   1.996   0.0516 .
+Income       0.017583   0.007283   2.414   0.0195 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 30.63 on 49 degrees of freedom
+Multiple R-squared:  0.1063,	Adjusted R-squared:  0.08808 
+F-statistic: 5.829 on 1 and 49 DF,  p-value: 0.01954
+
+** Model Selection: Trimmed dataset (removed outliers) **
+
+Forward Selection
+Start:  AIC=270.66
+Sales ~ 1
+
+         Df Sum of Sq   RSS    AIC
++ Income  1   2793.03 14828 264.89
++ Age     1   1060.83 16560 269.87
++ HS      1    877.79 16744 270.36
+<none>                17621 270.66
++ Black   1    259.70 17362 271.99
++ Female  1     19.31 17602 272.61
+
+Step:  AIC=264.89
+Sales ~ Income
+
+         Df Sum of Sq   RSS    AIC
+<none>                14828 264.89
++ Age     1   209.278 14619 266.25
++ Female  1    53.739 14774 266.73
++ HS      1     1.423 14827 266.89
++ Black   1     0.823 14827 266.89
+
+Call:
+lm(formula = Sales ~ Income, data = dataset)
+
+Coefficients:
+(Intercept)       Income  
+   64.94245      0.01383  
+
+
+Backward Selection
+Start:  AIC=272.16
+Sales ~ Age + HS + Income + Black + Female
+
+         Df Sum of Sq   RSS    AIC
+- Female  1      2.43 14592 270.17
+- HS      1     22.64 14612 270.23
+- Black   1     27.27 14616 270.25
+- Age     1    169.68 14759 270.68
+<none>                14589 272.16
+- Income  1    842.01 15431 272.69
+
+Step:  AIC=270.17
+Sales ~ Age + HS + Income + Black
+
+         Df Sum of Sq   RSS    AIC
+- HS      1     23.46 14615 268.24
+- Black   1     25.07 14616 268.25
+- Age     1    229.34 14821 268.87
+<none>                14592 270.17
+- Income  1    862.28 15454 270.75
+
+Step:  AIC=268.24
+Sales ~ Age + Income + Black
+
+         Df Sum of Sq   RSS    AIC
+- Black   1      4.03 14619 266.25
+- Age     1    212.48 14827 266.89
+<none>                14615 268.24
+- Income  1   1893.13 16508 271.72
+
+Step:  AIC=266.25
+Sales ~ Age + Income
+
+         Df Sum of Sq   RSS    AIC
+- Age     1    209.28 14828 264.89
+<none>                14619 266.25
+- Income  1   1941.48 16560 269.87
+
+Step:  AIC=264.89
+Sales ~ Income
+
+         Df Sum of Sq   RSS    AIC
+<none>                14828 264.89
+- Income  1      2793 17621 270.66
+
+Call:
+lm(formula = Sales ~ Income, data = dataset)
+
+Coefficients:
+(Intercept)       Income  
+   64.94245      0.01383  
+
+
+Stepwise regression
+Start:  AIC=270.66
+Sales ~ 1
+
+         Df Sum of Sq   RSS    AIC
++ Income  1   2793.03 14828 264.89
++ Age     1   1060.83 16560 269.87
++ HS      1    877.79 16744 270.36
+<none>                17621 270.66
++ Black   1    259.70 17362 271.99
++ Female  1     19.31 17602 272.61
+
+Step:  AIC=264.89
+Sales ~ Income
+
+         Df Sum of Sq   RSS    AIC
+<none>                14828 264.89
++ Age     1    209.28 14619 266.25
++ Female  1     53.74 14774 266.73
++ HS      1      1.42 14827 266.89
++ Black   1      0.82 14827 266.89
+- Income  1   2793.03 17621 270.66
+
+Call:
+lm(formula = Sales ~ Income, data = dataset)
+
+Coefficients:
+(Intercept)       Income  
+   64.94245      0.01383  
+
+
+Call:
+lm(formula = Sales ~ Income, data = dataset)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-46.781  -9.260  -2.696   6.541  61.449 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 64.94245   18.38198   3.533 0.000996 ***
+Income       0.01383    0.00486   2.846 0.006758 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 18.57 on 43 degrees of freedom
+Multiple R-squared:  0.1585,	Adjusted R-squared:  0.1389 
+F-statistic: 8.099 on 1 and 43 DF,  p-value: 0.006758
+

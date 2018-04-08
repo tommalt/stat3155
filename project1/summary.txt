@@ -1,0 +1,18 @@
+# Tom Maltese
+# Stat 3155, Prof. Elbarmi.
+# Project 1 Summary
+
+We can say, with 95% confidence, that a one unit increase in the variable
+'income' (that is, a one unit increase in per capita personal income for the
+state, measured in dollars) corresponds with an increase in the mean value of
+the response variable (Number of packs of cigarettes sold in the state on a
+per capita basis) by some number between 0.0040 and 0.0236 packs.
+
+Here, the value of the intercept in the model has no meaning, because
+it is unrealistic that there is 0 dollars per capita personal income
+in any one state.
+
+Note that here we have used a filtered portion of the data (removing outliers)
+When using the full dataset, we achieve similar results: the confidence interval
+is (0.0029, 0.0322) instead of (0.0040, 0.0236). The meaning of this interval
+is the same as stated above.
