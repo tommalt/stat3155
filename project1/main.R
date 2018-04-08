@@ -1,5 +1,7 @@
 # Tom Maltese
-# Project 1 - Model Building
+# Stat 3155 - Prof. Elbarmi
+# Project 1 - Model Building; testing for outliers
+# and multicolinearity with VIF
 yname = "Sales"
 xnames = c("Age","HS","Income","Black","Female")
 cnames = c(yname, xnames)
@@ -24,7 +26,16 @@ print(summary(naive_model))
 cat("Removed outliers model (nrow = ", nrow(df), ")\n", sep="")
 print(summary(removed_outliers_model))
 
-# try to detect multicollinearity
+# the full model (with no outliers removed from the data) realizes a stderr
+# of 30.85 on 45 degrees of freedom
+# the model with the filtered data realizes a stderr of 19.34 on 39 degrees of freedom
+# and also has a slightly better R-squared value (0.167 -> 0.172)
+# However, the p-values for the t-statistic for every variable (except Income)
+# were greater in the second model than they were in the first.
+# additionally, the p-value for the F-statistic was slightly higher (0.13 -> 0.17)
+
+# next, we try to detect multicollinearity
+
 makeFormula = function(y, xs)
 {
 	if (is.vector(xs, mode="character") && length(xs) == 1) {
@@ -86,6 +97,10 @@ if (status) {
 	cat("Mean    VIF:", meanvif, "\n")
 	cat("VIF checks passed\n")
 }
+# checking for multicollinearity between the independent variables
+# is inconclusive; the max is only 3.82, with a mean of 2.75
+
+# gets the p-value from a linear model
 lm_pvalue = function(model)
 {
 	if (class(model) != "lm")
