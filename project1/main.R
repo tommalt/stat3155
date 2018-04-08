@@ -19,6 +19,11 @@ outliers = sort(c(outliers_x, outliers_y))
 df = data[-outliers,]
 removed_outliers_model = lm(Sales ~ Age + HS + Income + Black + Female, data=df)
 
+cat("Naive model (full data-set, nrow = ", nrow(data), ")\n", sep="")
+print(summary(naive_model))
+cat("Removed outliers model (nrow = ", nrow(df), ")\n", sep="")
+print(summary(removed_outliers_model))
+
 # try to detect multicollinearity
 makeFormula = function(y, xs)
 {
@@ -61,6 +66,7 @@ VIFcheck = function(vifs, maxval, meanval)
 		return (2)
 	return (0)
 }
+cat("Variance Inflation factor analysis (with trimmed dataset)\n")
 vif = VIF(df, xnames)
 vifvalues = unlist(vif)
 maxvif = max(vifvalues)
