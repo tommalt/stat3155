@@ -1,0 +1,90 @@
+Tom Maltese
+Stat 3155, Prof. Elbarmi
+Homework 4, Questions 5.1, 5.3, 5.5, 5.7
+
+Variables for Question 5.1
+Xray = monthly xray exposure
+BedDays = monthly occupied bed days: 1 bed day if one bed is occupied for entire day
+Load (not present) = average daily patient load
+Pop (not present)  = eligible population in the area, in thousands
+Hours = monthly labor hours (dependent variable)
+
+** Question 5.1 **
+(part a)
+The 3 largest simple correlation coefficients
+between the independent variables are:
+
+cor(Load, BedDays) = 1.0
+cor(Pop, Load) = 0.936
+cor(Pop, BedDays) = 0.933
+
+The 3 largest Variance Inflation Factors (VIFs) are:
+
+VIF(Load) = 9597.6
+VIF(BedDays) = 8933.1
+VIF(Pop) = 23.3
+
+(part b)
+Based on information from part a, the independent
+variables most involved in multicollinearity are
+'Load', 'BedDays', and 'Pop'
+
+(part c)
+Some of the variables have negative parameter estimates
+(Length = -394.3, Load = -15.85, Pop = -4.219)
+We would expect these to be positive, as increased length
+of patient stay, increased number of patients per day, and
+a greater population all logically correspond with higher demand for labor.
+
+(part d)
+Yes, the p-value for the f-statistic (given as 0.0001) is much smaller than
+that of the individual t-statistics for each variable, the lowest of which
+is p-value(Xray) = 0.023
+
+(part e)
+Of the two models (model1 = Xray + BedDays + Length,
+                   model2 = Xray + BedDays + Pop + Length)
+the model with the smallest std. error is model1
+the model with the largest R^2 is model2
+the model with the smallest value of the C-statistic is model1
+
+the model with the shortest prediction interval (14511, 17618) = 3107
+is model1.
+The model chosen by stepwise regression and backward elimination is model1.
+It seems that model1 is the best model.
+
+** Question 5.3 **
+The std. error and adjusted R^2 metrics for the 'optimal model' (as given by the problem
+to be the model with 7 variables) are 210.70 and 0.974, respectively.
+Comparing with the 'plain' model using only the linear terms TIME, MKTPOTEN, ADVER,
+MKTSHARE, the 'plain' model has a std. error of 430.231 and adjusted R^2 of 0.8926
+
+** Question 5.5 **
+Figure 5.27 shows a histogram of the residuals, which do not seem to follow a normal
+distribution. The distribution does not have a left tail: the left half of
+the distribution is approximately as dense as the middle section. The right
+side of the distribution is not nearly as dense. It appears the distribution is
+skewed to the right. This violates the assumption that the errors are normally
+distributed.
+The plot of the residuals against the fitted values doesn't seem to show any
+particular pattern.
+The Normal Probability Plot of the Residuals (with the line fitted to the points)
+shows that the residuals that are below zero seem to veer off from the line,
+suggesting that the residuals do not follow a normal distribution.
+
+** Question 5.7 **
+(part a)
+i <- {1..n}
+with n = 11
+p(i) = ((3i - 1) / (3n + 1)) * 100
+so:
+	p(4) = ((3(4) - 1) / (3(11) + 1)) * 100
+	p(4) = (11 / 34) * 100 = 32.35
+similarly:
+	p(10) = ((3(10) - 1) / (3(11) + 1)) * 100
+	p(10) = (29 / 34) * 100 = 85.29
+
+(part b)
+Figure 5.28(c) does not indicate a violation of the normality assumption;
+The line forms a tight, linear fit to the residuals, there is strong evidence
+that the residuals follow a normal distribution.
