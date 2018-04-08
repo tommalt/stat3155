@@ -61,7 +61,7 @@ VIFcheck = function(vifs, maxval, meanval)
 		return (2)
 	return (0)
 }
-vif = VIF(data, xnames)
+vif = VIF(df, xnames)
 vifvalues = unlist(vif)
 maxvif = max(vifvalues)
 meanvif = mean(vifvalues)
@@ -80,3 +80,34 @@ if (status) {
 	cat("Mean    VIF:", meanvif, "\n")
 	cat("VIF checks passed\n")
 }
+lm_pvalue = function(model)
+{
+	if (class(model) != "lm")
+		stop("'model' object is not of class 'lm'")
+	fstat = summary(model)$fstatistic
+	val = fstat[1]
+	numdf = fstat[2]
+	demdf = fstat[3]
+	p = pf(val, numdf, demdf, lower.tail=FALSE) # p-value from f-distribution
+	attributes(p) = NULL    # return just the number
+	return (p)
+}
+# TODO: finish stepwiseRegression implementation
+stepwiseRegression = function(data, yname, xnames, alpha_entry=0.05, alpha_stay=0.05)
+{
+	# let k = number of independent variables in the full model
+	# we run the regression 'k' times, with only one variable, x[i], i <- {1..k}
+	# pvalues is a vector of the p-values of the t-statistic for each regression
+	pvalues = vector(mode="numeric")
+	k = length(xnames)
+	for (i in 1:k) {
+		f = makeFormula(yname, xnames[i])
+		fit = lm(as.formula(f), data=data)
+		p = lm_pvalue(fit)
+		pvalues = append(pvalues, p)
+	}
+	minix = which.min(pvalues)
+	minp = pvalues[minix]
+}
+#debug(stepwiseRegression)
+stepwiseRegression(df, yname, xnames)
