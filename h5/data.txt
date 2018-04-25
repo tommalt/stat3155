@@ -1,0 +1,5 @@
+Race Gender Yes No
+white male 42 134
+white female 26 169
+black male 29 23
+black female 22 36
